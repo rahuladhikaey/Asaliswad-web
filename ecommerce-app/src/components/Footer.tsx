@@ -40,7 +40,7 @@ export function Footer() {
               <li><Link href="/admin" className="transition hover:text-white">Admin Portal</Link></li>
               <li><Link href="/about" className="transition hover:text-white">About Us</Link></li>
               <li><Link href="/contact" className="transition hover:text-white">Contact & Support</Link></li>
-              <li><Link href="/" className="transition hover:text-white">Privacy Policy</Link></li>
+              <li><Link href="/privacy-policy" className="transition hover:text-white">Privacy Policy</Link></li>
             </ul>
           </div>
 
