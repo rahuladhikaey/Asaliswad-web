@@ -48,14 +48,14 @@ export default function OrderSuccessPage() {
           <div className="mx-auto h-24 w-24 flex items-center justify-center rounded-full bg-emerald-100 text-4xl mb-8 animate-bounce">
             ✅
           </div>
-          
+
           <h1 className="text-3xl font-black text-slate-900">
             {order?.payment_method === "COD" ? "Order Successful!" : "Payment Complete!"}
           </h1>
           <p className="mt-4 text-emerald-600 font-bold uppercase tracking-widest text-sm">
             Waiting for Shipping by Seller
           </p>
-          
+
           <div className="mt-10 p-6 rounded-3xl bg-slate-50 border border-slate-100 text-left space-y-4">
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-slate-400 uppercase tracking-widest">Order ID</span>
@@ -75,14 +75,14 @@ export default function OrderSuccessPage() {
 
           <div className="mt-10 space-y-4">
             <p className="text-slate-500 font-medium">
-              {order?.payment_method === "COD" 
-                ? "Your COD order has been received. Please keep the exact amount ready for payment at the time of delivery." 
-                : "We have received your payment. Our team is currently preparing your package for dispatch."} 
+              {order?.payment_method === "COD"
+                ? "Your COD order has been received. Please keep the exact amount ready for payment at the time of delivery."
+                : "We have received your payment. Our team is currently preparing your package for dispatch."}
               Our seller is preparing it for shipping. You will receive an update once it's shipped!
             </p>
-            
+
             <div className="pt-8">
-               <Link href="/" className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black uppercase tracking-widest text-white transition hover:bg-slate-800 active:scale-95">
+              <Link href="/" className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black uppercase tracking-widest text-white transition hover:bg-slate-800 active:scale-95">
                 Continue Shopping
               </Link>
             </div>
@@ -91,42 +91,42 @@ export default function OrderSuccessPage() {
 
         {/* Status Tracker */}
         <div className="mt-12 overflow-hidden rounded-[2.5rem] bg-white premium-shadow border border-slate-100">
-           <div className="bg-slate-900 p-6 text-white flex items-center justify-between">
-              <span className="text-xs font-black uppercase tracking-widest">Order Progress</span>
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]">In Real-time</span>
-           </div>
-           <div className="p-8 space-y-8 relative">
-              {/* Vertical line connector */}
-              <div className="absolute left-[2.45rem] top-12 bottom-20 w-1 bg-slate-100" />
-              
-              <div className="flex items-start gap-6 relative">
-                 <div className="h-4 w-4 rounded-full bg-emerald-500 mt-1 ring-8 ring-emerald-50" />
-                 <div>
-                    <h4 className="font-black text-sm uppercase text-slate-900">
-                      {order?.payment_method === "COD" ? "Order Confirmed" : "Order Placed & Paid"}
-                    </h4>
-                    <p className="text-xs text-slate-400 font-medium mt-1">
-                      {order?.payment_method === "COD" ? "Your COD order has been recorded." : "Order successfully created and payment verified."}
-                    </p>
-                 </div>
-              </div>
+          <div className="bg-slate-900 p-6 text-white flex items-center justify-between">
+            <span className="text-xs font-black uppercase tracking-widest">Order Progress</span>
+            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]">In Real-time</span>
+          </div>
+          <div className="p-8 space-y-8 relative">
+            {/* Vertical line connector */}
+            <div className="absolute left-[2.45rem] top-12 bottom-20 w-1 bg-slate-100" />
 
-              <div className="flex items-start gap-6 relative">
-                 <div className="h-4 w-4 rounded-full bg-amber-500 mt-1 ring-8 ring-amber-50 animate-pulse" />
-                 <div>
-                    <h4 className="font-black text-sm uppercase text-slate-900">Dispatch Center</h4>
-                    <p className="text-xs text-slate-400 font-medium mt-1">Admin is reviewing your order for shipment via Shiprocket.</p>
-                 </div>
+            <div className="flex items-start gap-6 relative">
+              <div className="h-4 w-4 rounded-full bg-emerald-500 mt-1 ring-8 ring-emerald-50" />
+              <div>
+                <h4 className="font-black text-sm uppercase text-slate-900">
+                  {order?.payment_method === "COD" ? "Order Confirmed" : "Order Placed & Paid"}
+                </h4>
+                <p className="text-xs text-slate-400 font-medium mt-1">
+                  {order?.payment_method === "COD" ? "Your COD order has been recorded." : "Order successfully created and payment verified."}
+                </p>
               </div>
+            </div>
 
-              <div className="flex items-start gap-6 relative">
-                 <div className="h-4 w-4 rounded-full bg-slate-200 mt-1" />
-                 <div>
-                    <h4 className="font-black text-sm uppercase text-slate-400 opacity-30">Shipped</h4>
-                    <p className="text-xs text-slate-400 font-medium mt-1 opacity-30">Waiting for courier pickup.</p>
-                 </div>
+            <div className="flex items-start gap-6 relative">
+              <div className="h-4 w-4 rounded-full bg-amber-500 mt-1 ring-8 ring-amber-50 animate-pulse" />
+              <div>
+                <h4 className="font-black text-sm uppercase text-slate-900">Dispatch Center</h4>
+                <p className="text-xs text-slate-400 font-medium mt-1">Admin is reviewing your order for shipment via Shiprocket.</p>
               </div>
-           </div>
+            </div>
+
+            <div className="flex items-start gap-6 relative">
+              <div className="h-4 w-4 rounded-full bg-slate-200 mt-1" />
+              <div>
+                <h4 className="font-black text-sm uppercase text-slate-400 opacity-30">Shipped</h4>
+                <p className="text-xs text-slate-400 font-medium mt-1 opacity-30">Waiting for courier pickup.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
