@@ -1,89 +1,88 @@
-# AS Store — WhatsApp COD eCommerce
+# 🛍️ Asali Swad eCommerce Storefront
 
-A modern full-stack eCommerce storefront built with Next.js, Tailwind CSS, and Supabase. Orders are sent via WhatsApp using a pre-filled message, and an admin panel is included for product, category, and order management.
+A modern full-stack eCommerce storefront built with **Next.js**, **Tailwind CSS**, and **Supabase**. Orders are sent via WhatsApp using a pre-filled message, designed specifically for Cash on Delivery (COD) services.
 
-## Features
+## ✨ Key Features
 
-- Home page with hero, featured products, and categories
-- Product listing page with search and category filter
-- Product detail page with multiple images and WhatsApp order button
-- Cart system with quantity updates
-- Checkout page with customer details and WhatsApp order generation
-- Admin panel with Supabase Auth protection
-- Product and category CRUD
-- Optional Supabase order storage and order status updates
+- **Modern UI/UX**: Responsive design with stunning visuals and glassmorphism.
+- **Product Management**: categories, images, and descriptions.
+- **WhatsApp Checkout**: Seamless integration for easy order processing.
+- **Admin Panel**: Secure portal for managing products and tracking orders.
+- **AI Assistant**: Smart search and product recommendations.
 
-## Environment variables
+## 🛠️ Getting Started
 
-Create a `.env.local` file in the project root with:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-## Supabase setup
-
-1. Create a Supabase project
-2. Create a `product-images` storage bucket and set it as public
-3. Create tables using SQL or Supabase Table Editor:
-
-### categories
-- id: integer, primary key, auto increment
-- name: text
-
-### products
-- id: integer, primary key, auto increment
-- name: text
-- price: numeric
-- description: text
-- image_url: text
-- images: text[] (optional)
-- category_id: integer
-
-### orders
-- id: integer, primary key, auto increment
-- customer_name: text
-- phone: text
-- address: text
-- product_details: text
-- status: text
-- created_at: timestamp with time zone, default now()
-
-4. Create an admin user with Supabase Auth in the Auth section
-5. Add a row-level policy if desired for extra protection
-
-## Scripts
-
+### 1. Installation
 ```bash
 npm install
-npm run dev
 ```
 
-## Deployment
+### 2. Configuration
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=j.your-anon-key
+```
 
-### Render
+### 3. Database Schema (Supabase)
 
-1. Connect the repository to Render
-2. Set build command: `npm run build`
-3. Set start command: `npm run start`
-4. Add environment variables in Render dashboard
-5. Deploy
+Run these SQL scripts in the Supabase SQL Editor:
 
-### Railway
+#### Categories
+```sql
+CREATE TABLE categories (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+```
 
-1. Create a new Railway project and connect the repo
-2. Add environment variables
-3. Set the build command to `npm install && npm run build`
-4. Set the start command to `npm run start`
+#### Products
+```sql
+CREATE TABLE products (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  description TEXT,
+  image_url TEXT,
+  images TEXT[] DEFAULT '{}',
+  category_id BIGINT REFERENCES categories(id)
+);
+```
 
-## WhatsApp message helper
+#### Orders
+```sql
+CREATE TABLE orders (
+  id BIGSERIAL PRIMARY KEY,
+  customer_name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  address TEXT NOT NULL,
+  product_details TEXT NOT NULL,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
 
-The app uses `src/lib/whatsapp.ts` for message encoding and pre-filled order text.
+### 4. Storage Setup
+1. Open the **Storage** tab in Supabase.
+2. Create a new bucket named `product-images`.
+3. Set the bucket to **Public**.
 
-## Notes
+## 🚀 Deployment
 
-- Orders are Cash on Delivery only
-- Admin routes are protected by Supabase Auth
-- Product image uploads are saved to Supabase Storage
-- Checkout sends order details to WhatsApp and optionally stores orders in Supabase
+We recommend deploying with **Vercel** for the best performance with Next.js.
+
+1. Connect your repository to Vercel.
+2. Set the root directory to `ecommerce-app`.
+3. Configure environment variables in the Vercel dashboard.
+4. Add your custom domain in **Settings > Domains**.
+
+## 📦 Scripts
+
+- `npm run dev`: Start local development server.
+- `npm run build`: Build production bundle.
+- `npm run start`: Start production server.
+- `npm run lint`: Run ESLint.
+
+---
+
+Built for **Asali Swad**.
