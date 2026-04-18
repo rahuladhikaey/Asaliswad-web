@@ -87,9 +87,13 @@ export default function UserMenu() {
   return (
     <Link
       href="/login"
-      className="text-xs md:text-sm font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-3 md:px-4 py-2 rounded-xl transition-colors"
+      className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#2874f0] hover:bg-blue-50 px-4 py-2.5 rounded-xl transition-all border border-slate-100 bg-white shadow-sm"
     >
-      Sign In
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+      Login
     </Link>
   );
+
 }

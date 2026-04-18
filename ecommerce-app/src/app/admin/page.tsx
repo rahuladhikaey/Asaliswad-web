@@ -39,10 +39,15 @@ export default function AdminPage() {
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
+    mrp: "",
+    offers: "",
+    specifications: "",
     description: "",
     category_id: "",
     imageFiles: null as FileList | null,
   });
+
+
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
   const [editingCategoryId, setEditingCategoryId] = useState<number | null>(null);
 
@@ -131,11 +136,17 @@ export default function AdminPage() {
     event.preventDefault();
     const name = productForm.name.trim();
     const price = Number(productForm.price);
+    const mrp = productForm.mrp ? Number(productForm.mrp) : null;
     const description = productForm.description.trim();
     const categoryId = productForm.category_id ? Number(productForm.category_id) : null;
+    
+    // Split offers by new line and filter out empty strings
+    const offers = productForm.offers 
+      ? productForm.offers.split('\n').map(o => o.trim()).filter(o => o !== "") 
+      : [];
 
     if (!name || Number.isNaN(price) || price <= 0 || !description || (!categoryId && categories.length > 0)) {
-      setStatusMessage("Please complete all product fields.");
+      setStatusMessage("Please complete all required product fields.");
       return;
     }
 
@@ -173,7 +184,17 @@ export default function AdminPage() {
       }
     }
 
-    let error;
+    // Parse specifications from "Key: Value" lines
+    const specifications: Record<string, string> = {};
+    if (productForm.specifications) {
+      productForm.specifications.split('\n').forEach(line => {
+        const [key, ...valueParts] = line.split(':');
+        if (key && valueParts.length > 0) {
+          specifications[key.trim()] = valueParts.join(':').trim();
+        }
+      });
+    }
+
     const productPayload: any = {
       name,
       price,
@@ -182,15 +203,19 @@ export default function AdminPage() {
       images,
     };
 
-    if (categoryId) {
-      productPayload.category_id = categoryId;
-    }
+    if (mrp !== null) productPayload.mrp = mrp;
+    if (offers.length > 0) productPayload.offers = offers;
+    if (Object.keys(specifications).length > 0) productPayload.specifications = specifications;
+    if (categoryId) productPayload.category_id = categoryId;
 
+
+    let error;
     if (editingProductId) {
       const updatePayload: any = { ...productPayload };
-      if (image_url) {
-        updatePayload.image_url = image_url;
-        updatePayload.images = images;
+      if (!image_url) {
+        // If no new image uploaded, keep existing one (already handled by not overwriting unless provided)
+        delete updatePayload.image_url;
+        delete updatePayload.images;
       }
       const response = await supabase.from("products").update(updatePayload).eq("id", editingProductId);
       error = response.error;
@@ -204,7 +229,8 @@ export default function AdminPage() {
       return;
     }
 
-    setProductForm({ name: "", price: "", description: "", category_id: "", imageFiles: null });
+    setProductForm({ name: "", price: "", mrp: "", offers: "", specifications: "", description: "", category_id: "", imageFiles: null });
+
     setEditingProductId(null);
     setStatusMessage(storageFallback
       ? "Product saved successfully, but image upload is unavailable because the storage bucket was not found."
@@ -213,6 +239,7 @@ export default function AdminPage() {
         : "Product added successfully.");
     fetchData();
   };
+
 
   const handleDeleteProduct = async (productId: number) => {
     await supabase.from("products").delete().eq("id", productId);
@@ -248,11 +275,12 @@ export default function AdminPage() {
               </Link>
             </div>
             
-            <div className="text-center mb-10">
-               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Secure Entry</span>
-               <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">Admin Portal</h1>
-               <p className="mt-3 text-sm font-bold text-slate-400">Exclusive access for spice masters.</p>
+            <div className="text-center mb-8 md:mb-10">
+               <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Secure Entry</span>
+               <h1 className="mt-2 text-2xl md:text-3xl font-black tracking-tight text-slate-900">Admin Portal</h1>
+               <p className="mt-2 md:mt-3 text-[11px] md:text-sm font-bold text-slate-400">Exclusive access for spice masters.</p>
             </div>
+
 
             <form className="w-full space-y-6" onSubmit={handleAccessSubmit}>
               <div className="space-y-4">
@@ -300,6 +328,8 @@ export default function AdminPage() {
               </div>
             </form>
           </div>
+
+
         </section>
       </main>
     );
@@ -438,7 +468,7 @@ export default function AdminPage() {
                   {editingProductId && (
                     <button 
                       type="button" 
-                      onClick={() => { setEditingProductId(null); setProductForm({ name: "", price: "", description: "", category_id: "", imageFiles: null }); }} 
+                      onClick={() => { setEditingProductId(null); setProductForm({ name: "", price: "", mrp: "", offers: "", specifications: "", description: "", category_id: "", imageFiles: null }); }} 
                       className="px-6 py-3 rounded-xl bg-rose-50 text-rose-600 text-[10px] font-black uppercase tracking-widest hover:bg-rose-100 transition-colors"
                     >
                       Discard Changes
@@ -457,15 +487,27 @@ export default function AdminPage() {
                       className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 pl-20 pr-6 py-4 text-sm font-bold outline-none transition-all focus:border-emerald-500/20 focus:bg-white focus:ring-4 focus:ring-emerald-500/5"
                     />
                   </div>
-                  <div className="group relative">
-                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-slate-300 group-focus-within:text-emerald-500 transition-colors">Price</span>
-                    <input
-                      value={productForm.price}
-                      onChange={(event) => setProductForm((prev) => ({ ...prev, price: event.target.value }))}
-                      placeholder="0.00"
-                      type="number"
-                      className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 pl-20 pr-6 py-4 text-sm font-bold outline-none transition-all focus:border-emerald-500/20 focus:bg-white focus:ring-4 focus:ring-emerald-500/5"
-                    />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="group relative">
+                      <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-slate-300 group-focus-within:text-emerald-500 transition-colors">Price</span>
+                      <input
+                        value={productForm.price}
+                        onChange={(event) => setProductForm((prev) => ({ ...prev, price: event.target.value }))}
+                        placeholder="0.00"
+                        type="number"
+                        className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 pl-20 pr-6 py-4 text-sm font-bold outline-none transition-all focus:border-emerald-500/20 focus:bg-white focus:ring-4 focus:ring-emerald-500/5"
+                      />
+                    </div>
+                    <div className="group relative">
+                      <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-slate-300 group-focus-within:text-emerald-500 transition-colors">MRP</span>
+                      <input
+                        value={productForm.mrp}
+                        onChange={(event) => setProductForm((prev) => ({ ...prev, mrp: event.target.value }))}
+                        placeholder="0.00"
+                        type="number"
+                        className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 pl-20 pr-6 py-4 text-sm font-bold outline-none transition-all focus:border-emerald-500/20 focus:bg-white focus:ring-4 focus:ring-emerald-500/5"
+                      />
+                    </div>
                   </div>
                   <div className="group relative">
                     <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-slate-300 group-focus-within:text-emerald-500 transition-colors">Shelf</span>
@@ -480,7 +522,19 @@ export default function AdminPage() {
                       ))}
                     </select>
                   </div>
+                  
+                  <div className="group relative">
+                    <span className="absolute left-6 top-6 text-[10px] font-black uppercase text-slate-300 group-focus-within:text-emerald-500 transition-colors">Offers</span>
+                    <textarea
+                      value={productForm.offers}
+                      onChange={(event) => setProductForm((prev) => ({ ...prev, offers: event.target.value }))}
+                      placeholder="One offer per line..."
+                      className="w-full h-32 rounded-2xl border-2 border-slate-50 bg-slate-50 pl-20 pr-6 py-5 text-sm font-bold outline-none transition-all focus:border-emerald-500/20 focus:bg-white focus:ring-4 focus:ring-emerald-500/5 resize-none"
+                    />
+                  </div>
                 </div>
+
+
 
                 <div className="space-y-4 text-slate-950">
                   <textarea
@@ -524,6 +578,7 @@ export default function AdminPage() {
                   </button>
                 </div>
               </form>
+
             </div>
 
             <div className="bg-white rounded-[3rem] p-8 md:p-12 border border-slate-100 premium-shadow">
@@ -561,7 +616,7 @@ export default function AdminPage() {
                        <p className="text-2xl font-black tracking-tighter text-emerald-600">₹{product.price}</p>
                     </div>
                     
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-4 sm:mt-0">
                        <button
                         type="button"
                         onClick={() => {
@@ -569,26 +624,35 @@ export default function AdminPage() {
                           setProductForm({
                             name: product.name,
                             price: String(product.price),
+                            mrp: product.mrp ? String(product.mrp) : "",
+                            offers: product.offers ? product.offers.join('\n') : "",
+                            specifications: product.specifications 
+                              ? Object.entries(product.specifications).map(([k, v]) => `${k}: ${v}`).join('\n') 
+                              : "",
                             description: product.description,
                             category_id: String(product.category_id),
                             imageFiles: null
                           });
+
+
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
-                        className="h-14 px-8 rounded-2xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
+                        className="h-12 sm:h-14 px-8 rounded-2xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
                       >
                         Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDeleteProduct(product.id)}
-                        className="h-14 w-14 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center transition-all hover:bg-rose-600 group/del"
+                        className="h-12 w-full sm:h-14 sm:w-14 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center transition-all hover:bg-rose-600 group/del"
                       >
                          <svg className="h-5 w-5 text-rose-600 group-hover/del:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                          </svg>
+                         <span className="sm:hidden ml-2 text-[10px] font-black uppercase tracking-widest text-rose-600 group-hover/del:text-white">Delete</span>
                       </button>
                     </div>
+
                   </div>
                 ))}
               </div>
