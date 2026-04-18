@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/Header";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
-export default function OrderSuccessPage() {
+function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   const [order, setOrder] = useState<any>(null);
@@ -132,3 +132,19 @@ export default function OrderSuccessPage() {
     </main>
   );
 }
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={
+      <main className="flex min-h-screen items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent" />
+          <p className="text-sm font-black uppercase tracking-widest text-emerald-600">Loading...</p>
+        </div>
+      </main>
+    }>
+      <OrderSuccessContent />
+    </Suspense>
+  );
+}
+
