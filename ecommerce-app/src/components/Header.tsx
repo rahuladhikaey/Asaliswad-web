@@ -65,31 +65,7 @@ export function Header({
           </div>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {[
-            { name: "Home", href: "/" },
-            { name: "Shop Spices", href: "/products" },
-            { name: "Checkout", href: "/checkout" },
-            { name: "AI Assistant", href: "/assistant" },
-          ].map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href}
-              className="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-emerald-600 transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-
-
-
-        {/* Desktop Search (Optional - usually on homepage) */}
-        {/* We can add a search prop if needed, but for now keeping it simple as per original designs */}
-
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links (Large Screens) */}
         <nav className="hidden xl:flex items-center gap-8">
           {[
             { name: "Home", href: "/" },
@@ -105,6 +81,7 @@ export function Header({
             </Link>
           ))}
         </nav>
+
 
         {/* Global Search Bar (Desktop) */}
         <div className="hidden lg:flex flex-1 max-w-md mx-8">
@@ -126,21 +103,22 @@ export function Header({
         </div>
 
         {/* Right Side: Actions & Drawer Trigger */}
-        <div className="flex items-center gap-2 md:gap-4 shrink-0">
-          <UserMenu />
-          <CartHeaderLink />
-          
-          {/* Hamburger Menu - Tablet & Phone only */}
+        <div className="flex items-center gap-1.5 md:gap-4 shrink-0">
+          {/* Hamburger Menu - Tablet & Phone only (Moved to front for better index) */}
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all active:scale-95 lg:hidden"
+            className="flex lg:hidden h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-600 active:bg-slate-100 transition-all"
             aria-label="Toggle Menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
+
+          <UserMenu />
+          <CartHeaderLink />
         </div>
+
       </header>
 
 

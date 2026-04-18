@@ -7,16 +7,17 @@ export function CartHeaderLink() {
   const { totalItems } = useCart();
 
   return (
-    <Link href="/cart" className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-green-500 relative">
+    <Link href="/cart" className="flex h-10 w-10 md:h-auto md:w-auto items-center md:gap-2 rounded-xl bg-emerald-600 md:px-4 md:py-2.5 text-sm font-black justify-center text-white transition hover:bg-emerald-700 relative shadow-lg shadow-emerald-600/20">
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 11V7a4 4 0 11-8 0m-3 9v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 012-2h10a2 2 0 012 2z" />
       </svg>
-      <span className="hidden md:inline">Cart</span>
+      <span className="hidden md:inline uppercase tracking-widest text-[10px]">Cart</span>
       {totalItems > 0 && (
-        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white shadow-sm">
+        <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-[10px] font-black text-white shadow-md ring-2 ring-white">
           {totalItems}
         </span>
       )}
     </Link>
+
   );
 }
