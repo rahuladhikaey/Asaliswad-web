@@ -14,7 +14,7 @@ export function BannerCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    }, 4500); 
+    }, 4500);
     return () => clearInterval(timer);
   }, []);
 
@@ -47,7 +47,7 @@ export function BannerCarousel() {
             className="group/dot relative h-1 flex-1 overflow-hidden rounded-full bg-white/30 backdrop-blur-sm transition-all"
             aria-label={`Go to slide ${index + 1}`}
           >
-            <div 
+            <div
               className={`absolute inset-0 bg-white transition-all duration-[4500ms] ease-linear ${index === currentIndex ? "w-full" : "w-0"}`}
               style={{ transitionDuration: index === currentIndex ? '4500ms' : '0ms' }}
             />
@@ -56,13 +56,13 @@ export function BannerCarousel() {
       </div>
 
       {/* Navigation Arrows (Visible on Hover/Desktop) */}
-      <button 
+      <button
         onClick={() => setCurrentIndex((currentIndex - 1 + banners.length) % banners.length)}
         className="absolute left-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md opacity-0 transition-all hover:bg-white/40 group-hover:opacity-100 hidden md:flex"
       >
         ←
       </button>
-      <button 
+      <button
         onClick={() => setCurrentIndex((currentIndex + 1) % banners.length)}
         className="absolute right-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md opacity-0 transition-all hover:bg-white/40 group-hover:opacity-100 hidden md:flex"
       >

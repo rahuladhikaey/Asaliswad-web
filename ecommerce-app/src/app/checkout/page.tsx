@@ -14,7 +14,7 @@ function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialMethod = searchParams.get("method")?.toUpperCase() === "COD" ? "COD" : "ONLINE";
-  
+
   const { cart, totalItems, totalValue, clearCart } = useCart();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -53,7 +53,7 @@ function CheckoutContent() {
 
     setSaving(true);
     const fullAddress = `Vill: ${village}, P.O: ${postOffice}, Pin: ${pincode}, Info: ${addressDetail}`;
-    
+
     try {
       if (paymentMethod === "COD") {
         // Handle COD Flow
@@ -282,11 +282,10 @@ function CheckoutContent() {
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("ONLINE")}
-                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${
-                      paymentMethod === "ONLINE" 
-                        ? "border-emerald-600 bg-emerald-50/50 shadow-lg shadow-emerald-500/5" 
+                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${paymentMethod === "ONLINE"
+                        ? "border-emerald-600 bg-emerald-50/50 shadow-lg shadow-emerald-500/5"
                         : "border-slate-50 bg-slate-50 hover:border-slate-200"
-                    }`}
+                      }`}
                   >
                     <div className={`h-10 w-10 rounded-xl flex items-center justify-center text-xl ${paymentMethod === "ONLINE" ? "bg-emerald-600 text-white" : "bg-white text-slate-400"}`}>
                       💳
@@ -301,11 +300,10 @@ function CheckoutContent() {
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("COD")}
-                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${
-                      paymentMethod === "COD" 
-                        ? "border-emerald-600 bg-emerald-50/50 shadow-lg shadow-emerald-500/5" 
+                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${paymentMethod === "COD"
+                        ? "border-emerald-600 bg-emerald-50/50 shadow-lg shadow-emerald-500/5"
                         : "border-slate-50 bg-slate-50 hover:border-slate-200"
-                    }`}
+                      }`}
                   >
                     <div className={`h-10 w-10 rounded-xl flex items-center justify-center text-xl ${paymentMethod === "COD" ? "bg-emerald-600 text-white" : "bg-white text-slate-400"}`}>
                       📦
@@ -320,10 +318,10 @@ function CheckoutContent() {
               </div>
 
               {message ? (
-                 <div className="flex items-center gap-3 rounded-2xl bg-rose-50 p-4 border border-rose-100/50">
-                    <span className="text-xl">⚠️</span>
-                    <p className="text-xs font-bold text-rose-700 leading-snug">{message}</p>
-                 </div>
+                <div className="flex items-center gap-3 rounded-2xl bg-rose-50 p-4 border border-rose-100/50">
+                  <span className="text-xl">⚠️</span>
+                  <p className="text-xs font-bold text-rose-700 leading-snug">{message}</p>
+                </div>
               ) : null}
 
               <button
@@ -333,7 +331,7 @@ function CheckoutContent() {
               >
                 {saving ? "Processing..." : paymentMethod === "ONLINE" ? "Continue to Secure Payment 💳" : "Confirm COD Order 🚀"}
               </button>
-              
+
               <p className="text-center text-[10px] font-bold text-slate-300 uppercase tracking-widest">Powered by WhatsApp Cash on Delivery</p>
             </form>
           </div>
@@ -351,23 +349,23 @@ function CheckoutContent() {
                 ))}
               </div>
               <div className="mt-8 border-t border-slate-800 pt-6">
-                 <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Pay</span>
-                    <span className="text-2xl font-black text-emerald-400">₹{totalValue}</span>
-                 </div>
-                 <div className="mt-4 flex items-center gap-2 rounded-xl bg-slate-800/50 p-3">
-                    <span className="text-lg">🚚</span>
-                    <p className="text-[11px] font-bold text-slate-300">Free delivery within 10km radius of store location.</p>
-                 </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Pay</span>
+                  <span className="text-2xl font-black text-emerald-400">₹{totalValue}</span>
+                </div>
+                <div className="mt-4 flex items-center gap-2 rounded-xl bg-slate-800/50 p-3">
+                  <span className="text-lg">🚚</span>
+                  <p className="text-[11px] font-bold text-slate-300">Free delivery within 10km radius of store location.</p>
+                </div>
               </div>
             </div>
 
             <div className="rounded-[2rem] bg-emerald-50 p-8 border border-emerald-100/50">
               <h3 className="text-xs font-black uppercase tracking-widest text-emerald-700">How it works?</h3>
               <p className="mt-3 text-sm font-bold text-emerald-900 leading-relaxed">
-                1. Provide your address and contact details.<br/>
-                2. Choose between **Online Payment** or **COD**.<br/>
-                3. {paymentMethod === "ONLINE" ? "Pay instantly with Razorpay." : "Confirm your order instantly."}<br/>
+                1. Provide your address and contact details.<br />
+                2. Choose between **Online Payment** or **COD**.<br />
+                3. {paymentMethod === "ONLINE" ? "Pay instantly with Razorpay." : "Confirm your order instantly."}<br />
                 4. Get real-time updates on your delivery!
               </p>
             </div>
