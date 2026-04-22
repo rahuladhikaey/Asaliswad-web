@@ -172,13 +172,14 @@ export default function AdminPage() {
       try {
         images = await Promise.all(uploads);
         image_url = images[0] ?? "";
-      } catch (error: any) {
-        if (error.message?.includes("Bucket not found")) {
+      } catch (error: unknown) {
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        if (errorMsg?.includes("Bucket not found")) {
           storageFallback = true;
           image_url = "";
           images = [];
         } else {
-          setStatusMessage(error.message ?? "Image upload failed.");
+          setStatusMessage(errorMsg ?? "Image upload failed.");
           return;
         }
       }
@@ -195,7 +196,7 @@ export default function AdminPage() {
       });
     }
 
-    const productPayload: any = {
+    const productPayload: Record<string, unknown> = {
       name,
       price,
       description,
@@ -209,23 +210,24 @@ export default function AdminPage() {
     if (categoryId) productPayload.category_id = categoryId;
 
 
-    let error;
+    let updateError: unknown = null;
     if (editingProductId) {
-      const updatePayload: any = { ...productPayload };
+      const updatePayload: Record<string, unknown> = { ...productPayload };
       if (!image_url) {
         // If no new image uploaded, keep existing one (already handled by not overwriting unless provided)
         delete updatePayload.image_url;
         delete updatePayload.images;
       }
       const response = await supabase.from("products").update(updatePayload).eq("id", editingProductId);
-      error = response.error;
+      updateError = response.error;
     } else {
       const response = await supabase.from("products").insert([productPayload]);
-      error = response.error;
+      updateError = response.error;
     }
 
-    if (error) {
-      setStatusMessage(error.message);
+    if (updateError) {
+      const errMsg = updateError instanceof Error ? updateError.message : 'Unknown error';
+      setStatusMessage(errMsg);
       return;
     }
 

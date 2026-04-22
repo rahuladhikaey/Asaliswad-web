@@ -52,6 +52,15 @@ export function Header({
                 <span className="text-[10px] md:text-sm font-black uppercase tracking-widest text-emerald-600">Admin</span>
                 <span className="text-[10px] items-center md:flex font-bold text-slate-800">Panel控制台</span>
               </>
+            ) : title ? (
+              <>
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-emerald-600 truncate">
+                  {title}
+                </span>
+                <span className="text-[9px] md:text-[10px] font-bold text-slate-400 -mt-0.5">
+                  {subtitle}
+                </span>
+              </>
             ) : (
               <>
                 <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-emerald-600 truncate">

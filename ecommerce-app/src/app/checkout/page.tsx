@@ -8,14 +8,13 @@ import { supabase } from "@/lib/supabaseClient";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { Header } from "@/components/Header";
-import UserMenu from "@/components/UserMenu";
 
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialMethod = searchParams.get("method")?.toUpperCase() === "COD" ? "COD" : "ONLINE";
 
-  const { cart, totalItems, totalValue, clearCart } = useCart();
+  const { cart, totalValue, clearCart } = useCart();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [village, setVillage] = useState("");
@@ -105,7 +104,7 @@ function CheckoutContent() {
           name: "Asali Swad",
           description: "Premium Food Order",
           order_id: orderData.id,
-          handler: async function (response: any) {
+          handler: async function (response: Record<string, string>) {
             const verifyRes = await fetch("/api/checkout/verify-payment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -133,10 +132,10 @@ function CheckoutContent() {
           theme: { color: "#059669" },
         };
 
-        const paymentObject = new (window as any).Razorpay(options);
+        const paymentObject = new (window as unknown as { Razorpay: unknown }).Razorpay(options);
         paymentObject.open();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       setMessage("An unexpected error occurred. Please try again.");
     } finally {

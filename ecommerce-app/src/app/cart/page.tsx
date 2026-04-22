@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { Header } from "@/components/Header";
-import UserMenu from "@/components/UserMenu";
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalItems, totalValue } = useCart();

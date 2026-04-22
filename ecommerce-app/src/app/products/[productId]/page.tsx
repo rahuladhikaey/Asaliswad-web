@@ -13,6 +13,18 @@ type PageProps = {
   params: Promise<{ productId: string }>;
 };
 
+export async function generateStaticParams() {
+  const { data: products } = await supabase
+    .from("products")
+    .select("id");
+
+  if (!products) return [];
+
+  return products.map((product) => ({
+    productId: product.id.toString(),
+  }));
+}
+
 const getProduct = async (productId: string) => {
   const { data, error } = await supabase
     .from("products")

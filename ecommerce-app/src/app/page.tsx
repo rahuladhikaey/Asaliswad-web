@@ -7,7 +7,6 @@ import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
 import { BannerCarousel } from "@/components/BannerCarousel";
 import { Header } from "@/components/Header";
-import UserMenu from "@/components/UserMenu";
 
 const fetchHomeData = async () => {
   const { data: categories } = await supabaseServer
@@ -66,7 +65,7 @@ export default async function HomePage() {
         {/* Featured Products Grid - 2 Column Mobile */}
         <section className="mt-10">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-black text-slate-900 md:text-2xl">Today's Selection</h2>
+            <h2 className="text-xl font-black text-slate-900 md:text-2xl">Today&apos;s Selection</h2>
             <div className="h-0.5 flex-1 mx-4 bg-slate-100 hidden sm:block" />
             <Link href="/products" className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-black uppercase tracking-wider text-emerald-700 hover:bg-emerald-100 transition-colors">Explorer</Link>
           </div>

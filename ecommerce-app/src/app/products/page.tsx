@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { encodeWhatsAppMessage, buildProductOrderMessage } from "@/lib/whatsapp";
 import { Product, Category } from "@/lib/types";
 import { LoadingCard } from "@/components/LoadingCard";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
 import { Header } from "@/components/Header";
-import UserMenu from "@/components/UserMenu";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);

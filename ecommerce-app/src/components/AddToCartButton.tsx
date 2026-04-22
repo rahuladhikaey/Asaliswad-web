@@ -11,16 +11,6 @@ export function AddToCartButton({ product, className }: { product: Product; clas
   const cartItem = cart.find(item => item.id === product.id);
   const quantity = cartItem?.quantity || 0;
 
-  const handleBuyNow = () => {
-    // Check if item is already in cart
-    const cartItem = cart.find(item => item.id === product.id);
-    if (!cartItem) {
-      addToCart(product, 1);
-    }
-    
-    router.push("/checkout");
-  };
-
   if (quantity > 0) {
     return (
       <div 
@@ -54,6 +44,5 @@ export function AddToCartButton({ product, className }: { product: Product; clas
       ADD
     </button>
   );
-
 }
 

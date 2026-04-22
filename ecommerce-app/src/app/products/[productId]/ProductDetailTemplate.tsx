@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Product } from "@/lib/types";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
-import { ShoppingCart, Zap, Star, ShieldCheck, Truck, RefreshCcw, Tag, ChevronRight } from "lucide-react";
+import { ShieldCheck, Truck, RefreshCcw, Tag, ChevronRight } from "lucide-react";
 
 export default function ProductDetailTemplate({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(product.images?.[0] || product.image_url);

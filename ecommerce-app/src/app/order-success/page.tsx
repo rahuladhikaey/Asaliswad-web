@@ -11,13 +11,13 @@ import { supabase } from "@/lib/supabaseClient";
 function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (orderId) {
       const fetchOrder = async () => {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("orders")
           .select("*")
           .eq("id", orderId)
@@ -80,7 +80,7 @@ function OrderSuccessContent() {
               {order?.payment_method === "COD"
                 ? "Your COD order has been received. Please keep the exact amount ready for payment at the time of delivery."
                 : "We have received your payment. Our team is currently preparing your package for dispatch."}
-              Our seller is preparing it for shipping. You will receive an update once it's shipped!
+              {" Our seller is preparing it for shipping. You will receive an update once it\\'s shipped!"}
             </p>
 
             <div className="pt-8">
