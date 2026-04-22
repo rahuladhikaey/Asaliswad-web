@@ -1,5 +1,4 @@
 import Link from "next/link";
-export const runtime = 'edge';
 import { createClient } from "@supabase/supabase-js";
 import { Product } from "@/lib/types";
 import { Header } from "@/components/Header";
