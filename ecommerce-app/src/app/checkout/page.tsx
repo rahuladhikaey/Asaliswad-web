@@ -104,41 +104,53 @@ function CheckoutContent() {
           name: "Asali Swad",
           description: "Premium Food Order",
           order_id: orderData.id,
-          handler: async function (response: Record<string, string>) {
-            const verifyRes = await fetch("/api/checkout/verify-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                customer_name: name,
-                phone: phone,
-                address: fullAddress,
-                items: cart,
-                total: totalValue,
-              }),
-            });
+          handler: async function (response: any) {
+            try {
+              const verifyRes = await fetch("/api/checkout/verify-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  customer_name: name,
+                  phone: phone,
+                  address: fullAddress,
+                  items: cart,
+                  total: totalValue,
+                }),
+              });
 
-            const verifyData = await verifyRes.json();
-            if (verifyData.success) {
-              clearCart();
-              router.push(`/order-success?order_id=${verifyData.orderId}`);
-            } else {
-              setMessage("Payment verification failed. Please contact support.");
+              const verifyData = await verifyRes.json();
+              if (verifyData.success) {
+                clearCart();
+                router.push(`/order-success?order_id=${verifyData.orderId}`);
+              } else {
+                setMessage("Payment verification failed. Please contact support.");
+                setSaving(false);
+              }
+            } catch (err) {
+              console.error(err);
+              setMessage("Error verifying payment. Please contact support.");
+              setSaving(false);
             }
           },
           prefill: { name, contact: phone },
           theme: { color: "#059669" },
+          modal: {
+            ondismiss: function() {
+              setSaving(false);
+            }
+          }
         };
 
-        const paymentObject = new (window as unknown as { Razorpay: unknown }).Razorpay(options);
+        const Razorpay = (window as any).Razorpay;
+        const paymentObject = new Razorpay(options);
         paymentObject.open();
       }
     } catch (err: unknown) {
       console.error(err);
       setMessage("An unexpected error occurred. Please try again.");
-    } finally {
       setSaving(false);
     }
   };
