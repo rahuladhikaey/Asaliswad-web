@@ -40,9 +40,30 @@ const getProduct = async (productId: string) => {
   return data as Product;
 };
 
+const getRelatedProducts = async (category_id: number, currentProductId: number) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category_id", category_id)
+    .neq("id", currentProductId)
+    .limit(5);
+
+  if (error) {
+    console.error("Error fetching related products:", error);
+    return [];
+  }
+
+  return data as Product[];
+};
+
 export default async function ProductDetailPage({ params }: PageProps) {
   const { productId } = await params;
   const product = await getProduct(productId);
+  
+  // Fetch related products if category_id exists
+  const relatedProducts = product && product.category_id 
+    ? await getRelatedProducts(product.category_id, product.id)
+    : [];
 
   if (!product) {
     return (
@@ -62,7 +83,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-white text-slate-900 pb-20 overflow-x-hidden">
       <Header title={product.name} subtitle={product.category_name || "Premium Quality"} />
-      <ProductDetailTemplate product={product} />
+      <ProductDetailTemplate product={product} relatedProducts={relatedProducts} />
     </main>
   );
 }

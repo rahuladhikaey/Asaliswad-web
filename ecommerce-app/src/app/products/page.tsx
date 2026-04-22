@@ -8,6 +8,7 @@ import { LoadingCard } from "@/components/LoadingCard";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
 import { Header } from "@/components/Header";
+import { WishlistButton } from "@/components/WishlistButton";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -102,6 +103,9 @@ export default function ProductsPage() {
                       alt={product.name}
                       className="h-full w-full object-contain transition duration-500 group-hover:scale-110"
                     />
+                    <div className="absolute right-3 top-3 z-10">
+                      <WishlistButton product={product} />
+                    </div>
                   </Link>
                   
                   {/* Content */}

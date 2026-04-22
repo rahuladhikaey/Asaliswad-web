@@ -108,7 +108,6 @@ export default function CartPage() {
                   >
                     Cash on Delivery 📦
                   </Link>
-
                 </div>
               </div>
             </div>
@@ -131,5 +130,3 @@ export default function CartPage() {
     </main>
   );
 }
-
-

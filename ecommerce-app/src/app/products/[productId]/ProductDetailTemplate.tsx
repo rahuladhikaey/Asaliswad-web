@@ -4,9 +4,17 @@ import { useState } from "react";
 import { Product } from "@/lib/types";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
-import { ShieldCheck, Truck, RefreshCcw, Tag, ChevronRight } from "lucide-react";
+import { WishlistButton } from "@/components/WishlistButton";
+import { ShieldCheck, Truck, RefreshCcw, Tag, ChevronRight, Star } from "lucide-react";
+import Link from "next/link";
 
-export default function ProductDetailTemplate({ product }: { product: Product }) {
+export default function ProductDetailTemplate({ 
+  product, 
+  relatedProducts = [] 
+}: { 
+  product: Product, 
+  relatedProducts?: Product[] 
+}) {
   const [selectedImage, setSelectedImage] = useState(product.images?.[0] || product.image_url);
   const images = product.images || [product.image_url];
 
@@ -48,9 +56,9 @@ export default function ProductDetailTemplate({ product }: { product: Product })
                   />
 
                   {/* Heart Icon (Wishlist) */}
-                  <button className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md text-slate-400 hover:text-red-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
-                  </button>
+                  <div className="absolute right-4 top-4 z-10">
+                    <WishlistButton product={product} />
+                  </div>
                 </div>
               </div>
 
@@ -172,9 +180,57 @@ export default function ProductDetailTemplate({ product }: { product: Product })
                 <span className="text-xs font-black text-slate-900 uppercase">Original Item</span>
               </div>
             </div>
-
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1440px] px-4 md:px-8">
+        {/* RELATED PRODUCTS SECTION */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-20 border-t border-slate-100 pt-16">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#388e3c]">Suggestions</span>
+                <h2 className="text-2xl font-black text-slate-900 mt-1">You Might Also Like</h2>
+              </div>
+              <Link href="/products" className="text-sm font-black text-[#2874f0] hover:underline">View All Products</Link>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+              {relatedProducts.map((p) => (
+                <Link 
+                  key={p.id} 
+                  href={`/products/${p.id}`}
+                  className="group flex flex-col rounded-3xl bg-white p-3 transition-all hover:shadow-xl border border-transparent hover:border-slate-100"
+                >
+                  <div className="aspect-square w-full overflow-hidden rounded-2xl bg-slate-50 p-3 mb-4">
+                    <img 
+                      src={p.images?.[0] || p.image_url} 
+                      alt={p.name} 
+                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <h3 className="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-[#2874f0] transition-colors">{p.name}</h3>
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex h-5 items-center gap-0.5 rounded-md bg-[#388e3c] px-1.5 text-[10px] font-bold text-white">
+                        <span>4.4</span>
+                        <Star size={8} fill="currentColor" />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400">(234)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-black text-slate-900">₹{p.price}</span>
+                      {p.mrp && p.mrp > p.price && (
+                        <span className="text-[10px] font-bold text-slate-400 line-through">₹{p.mrp}</span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* STICKY BOTTOM BAR FOR MOBILE */}

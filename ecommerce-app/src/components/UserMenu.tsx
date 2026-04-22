@@ -67,9 +67,16 @@ export default function UserMenu() {
             <Link
               href="/cart"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50"
+              className="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-50"
             >
               My Orders
+            </Link>
+            <Link
+              href="/wishlist"
+              onClick={() => setIsOpen(false)}
+              className="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-50"
+            >
+              My Wishlist
             </Link>
             <button
               onClick={handleLogout}
