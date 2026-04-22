@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build-pages": "next build && npx @cloudflare/next-on-pages",
     "start": "next start",
-    "lint": "eslint",
-    "deploy": "npx @cloudflare/next-on-pages"
+    "lint": "eslint"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.37.0",

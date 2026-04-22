@@ -62,22 +62,26 @@ To connect your database, follow these steps in your [Supabase Dashboard](https:
 
 ## 🌐 Deployment & Hosting (Your Domain)
 
-To host this website on your own domain (e.g., `yourdomain.com`), we recommend using **Vercel**:
+To host this website on your own domain, we recommend using **Cloudflare Pages** for optimal performance and global distribution:
 
-### 1. Deploy to Vercel
-1. Go to [Vercel](https://vercel.com/) and click **"Add New" > "Project"**.
-2. Connect your GitHub repository (`ownskill2`).
-3. Set the **Root Directory** to `ecommerce-app`.
-4. Add your **Environment Variables**:
+### 1. Deploy to Cloudflare Pages
+1. Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) and navigate to **Workers & Pages**.
+2. Click **Create** > **Pages** > **Connect to Git**.
+3. Connect your GitHub repository.
+4. **Build Settings**:
+   - **Framework Preset**: `None`
+   - **Build Command**: `npm run build-pages`
+   - **Build Output Directory**: `.vercel/output/static`
+5. **Environment Variables**:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-5. Click **Deploy**.
+6. Click **Save and Deploy**.
 
 ### 2. Connect Your Domain
-1. In the Vercel Dashboard, go to **Settings > Domains**.
-2. Type your domain name (e.g., `asaliswad.com`).
-3. Follow the instructions to add **A Records** or **CNAME** in your domain registrar (GoDaddy, Namecheap, etc.).
-4. Vercel will automatically generate an SSL certificate for you.
+1. In the Cloudflare Pages Dashboard, go to your project **Settings > Custom Domains**.
+2. Click **Set up a custom domain**.
+3. Type your domain name (e.g., `asaliswad.com`).
+4. Cloudflare will automatically handle the DNS records if your domain is also managed by Cloudflare.
 
 ---
 

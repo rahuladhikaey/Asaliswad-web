@@ -24,18 +24,19 @@
 
 **Build command:**
 ```bash
-npm run build
+npm run build-pages
 ```
 
 **Build output directory:**
 ```
-.next
+.vercel/output/static
 ```
+*(Note: Cloudflare uses this path to maintain Next.js compatibility)*
 
 **Environment variables:** Add these in Cloudflare Dashboard
 ```
-NEXT_PUBLIC_SUPABASE_URL = [Your Supabase URL]
-NEXT_PUBLIC_SUPABASE_ANON_KEY = [Your Supabase Anon Key]
+NEXT_PUBLIC_SUPABASE_URL = https://zhmftnlqkfppqnofpgjz.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY = sb_publishable_Pe9Nk-lo1h0F4UYFyw1tOw_9okQFDi1
 ```
 
 ### 3. Deploy
@@ -122,4 +123,4 @@ To add a custom domain:
 
 **Last Updated:** April 2026
 **Framework:** Next.js 15.1.6
-**Hosting:** Cloudflare Pages
+**Hosting:** Cloudflare Pages (via @cloudflare/next-on-pages)

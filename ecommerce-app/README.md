@@ -69,12 +69,17 @@ CREATE TABLE orders (
 
 ## 🚀 Deployment
 
-We recommend deploying with **Vercel** for the best performance with Next.js.
+We recommend deploying with **Cloudflare Pages** using the `@cloudflare/next-on-pages` adapter.
 
-1. Connect your repository to Vercel.
-2. Set the root directory to `ecommerce-app`.
-3. Configure environment variables in the Vercel dashboard.
-4. Add your custom domain in **Settings > Domains**.
+1. **Connect to GitHub**: Link your repository in the Cloudflare Dashboard.
+2. **Build Settings**:
+   - **Framework Preset**: `None` (or `Next.js` if available, but manual config is safer)
+   - **Build Command**: `npm run build-pages`
+   - **Build Output Directory**: `.vercel/output/static`
+3. **Environment Variables**:
+   - `NEXT_PUBLIC_SUPABASE_URL`: `https://zhmftnlqkfppqnofpgjz.supabase.co`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `sb_publishable_Pe9Nk-lo1h0F4UYFyw1tOw_9okQFDi1`
+4. **Deploy**: Click **Save and Deploy**.
 
 ## 📦 Scripts
 
