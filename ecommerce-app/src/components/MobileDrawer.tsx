@@ -88,7 +88,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                     <Link href="/profile" onClick={onClose} className="flex items-center py-3 text-base font-bold text-slate-800 hover:text-emerald-600 border-b border-slate-50">
                       View Profile
                     </Link>
-                    <Link href="/cart" onClick={onClose} className="flex items-center py-3 text-base font-bold text-slate-800 hover:text-emerald-600 border-b border-slate-50">
+                    <Link href="/profile/orders" onClick={onClose} className="flex items-center py-3 text-base font-bold text-slate-800 hover:text-emerald-600 border-b border-slate-50">
                       My Orders
                     </Link>
                     <button onClick={handleLogout} className="flex w-full items-center py-3 text-base font-bold text-rose-600 hover:text-rose-700">

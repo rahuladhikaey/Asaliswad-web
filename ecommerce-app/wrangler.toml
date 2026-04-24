@@ -5,6 +5,9 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 NEXT_PUBLIC_SUPABASE_URL = "https://zhmftnlqkfppqnofpgjz.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_Pe9Nk-lo1h0F4UYFyw1tOw_9okQFDi1"
+NEXT_PUBLIC_RAZORPAY_KEY_ID = "rzp_test_ShRpqbs6hVT6Ie"
+RAZORPAY_KEY_SECRET = "5LUjZ94LMDnjwlLyB9cUU5cb"
+RAZORPAY_KEY_ID = "rzp_test_ShRpqbs6hVT6Ie"
 
 [[pages_build_config]]
 build_command = "npm run build-pages"

@@ -110,8 +110,8 @@ export default function ProfilePage() {
                  <Link href="/products" className="flex items-center justify-center rounded-2xl bg-emerald-50 px-6 py-5 text-xs font-black uppercase tracking-widest text-emerald-700 transition-all hover:bg-emerald-100 border border-emerald-200/50">
                     Browse All Spices
                  </Link>
-                 <Link href="/cart" className="flex items-center justify-center rounded-2xl bg-slate-50 px-6 py-5 text-xs font-black uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-100 border border-slate-200">
-                    Manage Orders
+                 <Link href="/profile/orders" className="flex items-center justify-center rounded-2xl bg-slate-50 px-6 py-5 text-xs font-black uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-100 border border-slate-200">
+                    View My Orders
                  </Link>
                  <div className="mt-4 p-6 rounded-[2rem] bg-emerald-600 text-white shadow-xl shadow-emerald-600/20 text-center">
                     <p className="text-xs font-black uppercase tracking-widest mb-2">Invite Friends</p>

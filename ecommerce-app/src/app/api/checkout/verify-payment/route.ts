@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 async function verifySignature(orderId: string, paymentId: string, signature: string, secret: string) {
   const encoder = new TextEncoder();
@@ -31,14 +31,21 @@ export async function POST(req: Request) {
       address,
       items,
       total,
+      user_id,
     } = await req.json();
+
+    const secret = process.env.RAZORPAY_KEY_SECRET;
+    if (!secret) {
+      console.error("RAZORPAY_KEY_SECRET is missing.");
+      return NextResponse.json({ success: false, message: "Payment verification misconfigured" }, { status: 500 });
+    }
 
     // 1. Verify Signature
     const isAuthentic = await verifySignature(
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      process.env.RAZORPAY_KEY_SECRET!
+      secret
     );
 
     if (!isAuthentic) {
@@ -58,6 +65,7 @@ export async function POST(req: Request) {
         order_status: "PENDING",
         razorpay_order_id,
         razorpay_payment_id,
+        user_id: user_id,
       },
     ]).select().single();
 

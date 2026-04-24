@@ -19,11 +19,13 @@ type Order = {
   phone: string;
   address: string;
   product_details: string;
-  status: string;
+  order_status: string;
   payment_status: string;
   payment_method: string;
   razorpay_order_id?: string;
   razorpay_payment_id?: string;
+  shipment_id?: string;
+  shiprocket_order_id?: string;
   total_amount: number;
   created_at: string;
 };
@@ -253,9 +255,21 @@ export default function AdminPage() {
     fetchData();
   };
 
-  const handleOrderStatusUpdate = async (orderId: number, status: string) => {
-    await supabase.from("orders").update({ status }).eq("id", orderId);
+  const handleOrderStatusUpdate = async (orderId: number, order_status: string) => {
+    await supabase.from("orders").update({ order_status }).eq("id", orderId);
     fetchData();
+  };
+
+  const handleDeleteOrder = async (orderId: number) => {
+    if (!confirm("Are you sure you want to permanently delete this order record? This action cannot be undone.")) return;
+    
+    const { error } = await supabase.from("orders").delete().eq("id", orderId);
+    if (error) {
+      setStatusMessage("Error deleting order: " + error.message);
+    } else {
+      setStatusMessage("Order #" + orderId + " has been deleted.");
+      fetchData();
+    }
   };
 
   if (loading) {
@@ -337,7 +351,7 @@ export default function AdminPage() {
     );
   }
 
-  const completedOrders = orders.filter((order) => order.status === "Delivered").length;
+  const completedOrders = orders.filter((order) => order.order_status === "DELIVERED").length;
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
@@ -806,11 +820,13 @@ export default function AdminPage() {
                               Payment: {order.payment_status || 'PENDING'}
                             </span>
                             <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${
-                              order.status === 'Delivered' 
+                              order.order_status === 'DELIVERED' 
                                 ? 'bg-slate-900 text-white' 
+                                : order.order_status === 'SHIPPED'
+                                ? 'bg-blue-600 text-white'
                                 : 'bg-amber-50 text-amber-600 border border-amber-100'
                             }`}>
-                              Order: {order.status || 'PENDING'}
+                              Order: {order.order_status || 'PENDING'}
                             </span>
                          </div>
                          <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Order ID: #{order.id} | Razorpay: {order.razorpay_order_id?.slice(-8) || 'N/A'}</p>
@@ -833,18 +849,29 @@ export default function AdminPage() {
                           </div>
                        </div>
 
-                       <div className="flex md:flex-col gap-3 justify-center">
+                       <div className="flex flex-col gap-3 justify-center min-w-[200px]">
                           <button
                             type="button"
-                            onClick={() => {
-                              alert("Initiating Shiprocket Shipment for Order #" + order.id);
-                              // Logic for Shiprocket API call would go here
-                              handleOrderStatusUpdate(order.id, "Shipped");
+                            onClick={async () => {
+                              if (!confirm("Create Shiprocket shipment?")) return;
+                              setStatusMessage("Initiating...");
+                              const res = await fetch("/api/admin/shiprocket/create-shipment", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ orderId: order.id }),
+                              });
+                              const data = await res.json();
+                              if (data.success) {
+                                setStatusMessage("Shipped!");
+                                fetchData();
+                              } else {
+                                setStatusMessage("Error: " + data.error);
+                              }
                             }}
-                            disabled={order.status === 'Shipped' || order.status === 'Delivered'}
-                            className={`h-14 px-8 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 disabled:opacity-30 disabled:grayscale`}
+                            disabled={order.order_status === 'SHIPPED' || order.order_status === 'DELIVERED'}
+                            className={`min-h-[3.5rem] px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 disabled:opacity-30 disabled:grayscale flex items-center justify-center text-center`}
                           >
-                            Create Shipment (Shiprocket) 🚚
+                            Create Shipment<br/>(Shiprocket) 🚚
                           </button>
                           
                           {order.payment_method === 'COD' && order.payment_status === 'PENDING' && (
@@ -855,23 +882,34 @@ export default function AdminPage() {
                                 fetchData();
                                 setStatusMessage("Payment marked as RECEIVED for Order #" + order.id);
                               }}
-                              className="h-14 px-8 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all bg-amber-500 text-white shadow-lg shadow-amber-600/20 hover:bg-amber-600"
+                              className="min-h-[3.5rem] px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all bg-amber-500 text-white shadow-lg shadow-amber-600/20 hover:bg-amber-600 flex items-center justify-center text-center leading-relaxed"
                             >
-                              Confirm Cash Received 💸
+                              Confirm Cash<br/>Received 💸
                             </button>
                           )}
 
                           <button
                             type="button"
-                            onClick={() => handleOrderStatusUpdate(order.id, "Delivered")}
-                            disabled={order.status === 'Delivered'}
-                            className={`h-14 px-8 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                               order.status === 'Delivered' 
+                            onClick={() => handleOrderStatusUpdate(order.id, "DELIVERED")}
+                            disabled={order.order_status === 'DELIVERED'}
+                            className={`min-h-[3.5rem] px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center text-center ${
+                               order.order_status === 'DELIVERED' 
                                  ? 'bg-emerald-600 text-white' 
                                  : 'bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-600 hover:text-white'
                             }`}
                           >
-                            {order.status === 'Delivered' ? 'Delivered ✅' : 'Mark Delivered ✅'}
+                            {order.order_status === 'DELIVERED' ? 'Delivered ✅' : 'Mark Delivered ✅'}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteOrder(order.id)}
+                            className="group flex h-10 items-center justify-center gap-2 rounded-xl bg-rose-50 px-4 text-[9px] font-black uppercase tracking-widest text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
+                          >
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear Order Record
                           </button>
                        </div>
                     </div>

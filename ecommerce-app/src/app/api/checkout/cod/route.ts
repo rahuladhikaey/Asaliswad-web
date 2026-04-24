@@ -11,6 +11,7 @@ export async function POST(req: Request) {
       address,
       items,
       total,
+      user_id,
     } = await req.json();
 
     // Save Order to Supabase as COD
@@ -24,6 +25,7 @@ export async function POST(req: Request) {
         payment_method: "COD",
         payment_status: "PENDING",
         order_status: "PENDING",
+        user_id: user_id,
       },
     ]).select().single();
 

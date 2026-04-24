@@ -61,7 +61,7 @@ function OrderSuccessContent() {
           <div className="mt-10 p-6 rounded-3xl bg-slate-50 border border-slate-100 text-left space-y-4">
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-slate-400 uppercase tracking-widest">Order ID</span>
-              <span className="font-black text-slate-900">#{orderId?.slice(0, 8)}</span>
+              <span className="font-black text-slate-900">#{String(orderId).slice(0, 8)}</span>
             </div>
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-slate-400 uppercase tracking-widest">Payment Method</span>

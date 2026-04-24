@@ -54,6 +54,9 @@ function CheckoutContent() {
     const fullAddress = `Vill: ${village}, P.O: ${postOffice}, Pin: ${pincode}, Info: ${addressDetail}`;
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user?.id;
+
       if (paymentMethod === "COD") {
         // Handle COD Flow
         const response = await fetch("/api/checkout/cod", {
@@ -65,6 +68,7 @@ function CheckoutContent() {
             address: fullAddress,
             items: cart,
             total: totalValue,
+            user_id: userId,
           }),
         });
 
@@ -90,9 +94,18 @@ function CheckoutContent() {
           body: JSON.stringify({ amount: totalValue }),
         });
 
-        const orderData = await response.json();
-        if (!orderData.id) {
-          setMessage("Could not create Razorpay order. " + (orderData.error || ""));
+        let orderData;
+        try {
+          const text = await response.text();
+          orderData = JSON.parse(text);
+        } catch (err) {
+          setMessage("Server error: Received an invalid response from the payment gateway.");
+          setSaving(false);
+          return;
+        }
+
+        if (!response.ok || !orderData.id) {
+          setMessage("Could not create Razorpay order. " + (orderData.error || "Please try again."));
           setSaving(false);
           return;
         }
@@ -118,6 +131,7 @@ function CheckoutContent() {
                   address: fullAddress,
                   items: cart,
                   total: totalValue,
+                  user_id: userId,
                 }),
               });
 
