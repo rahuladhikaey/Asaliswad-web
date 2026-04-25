@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 async function verifySignature(orderId: string, paymentId: string, signature: string, secret: string) {
   const encoder = new TextEncoder();

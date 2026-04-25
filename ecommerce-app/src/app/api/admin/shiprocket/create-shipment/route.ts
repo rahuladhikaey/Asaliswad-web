@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { getShiprocketToken, createShiprocketOrder } from "@/lib/shiprocket";
 
+export const runtime = 'edge';
+
 export async function POST(req: Request) {
   try {
     const { orderId } = await req.json();

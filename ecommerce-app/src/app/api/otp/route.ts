@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 // In-memory OTP storage (not persisted - resets on server restart)
 // Format: { email: { otp: string, expiresAt: number, attempts: number } }
 const otpStore = new Map<string, {
