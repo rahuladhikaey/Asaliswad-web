@@ -1,6 +1,8 @@
 const axios = require('axios');
 const http = require('http');
 
+console.log("🟢 [DEBUG] keeper.js script loaded into memory");
+
 // This script keeps your Render free tier web service awake by pinging it periodically.
 // It also starts a simple HTTP server to satisfy Render's requirement for a web service to bind to a port.
 
@@ -43,6 +45,8 @@ function reloadWebsite() {
 // 3. Start pinging
 setInterval(reloadWebsite, PING_INTERVAL);
 
-console.log(`🔄 Keeper started - pinging ${SITE_URL} every ${PING_INTERVAL / 1000} seconds`);
-// Initial ping
+console.log(`🔄 [SYSTEM] Keeper started - target: ${SITE_URL}`);
+console.log(`🕒 [SYSTEM] Ping interval: ${PING_INTERVAL / 1000} seconds`);
+
+// Initial ping immediately on startup
 reloadWebsite();
