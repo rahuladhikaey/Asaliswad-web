@@ -9,12 +9,12 @@ import { ShieldCheck, Truck, RefreshCcw, Tag, ChevronRight, Star } from "lucide-
 import Link from "next/link";
 import ProductImageCarousel from "@/components/ProductImageCarousel";
 
-export default function ProductDetailTemplate({ 
-  product, 
-  relatedProducts = [] 
-}: { 
-  product: Product, 
-  relatedProducts?: Product[] 
+export default function ProductDetailTemplate({
+  product,
+  relatedProducts = []
+}: {
+  product: Product,
+  relatedProducts?: Product[]
 }) {
   const images = product.images || [product.image_url];
 
@@ -40,15 +40,15 @@ export default function ProductDetailTemplate({
 
               {/* Action Buttons - Desktop (Flipkart Colors) */}
               <div className="hidden lg:grid grid-cols-2 gap-4 mt-2">
-                <AddToCartButton 
-                  product={product} 
+                <AddToCartButton
+                  product={product}
                   className="flex h-16 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#b8e636] to-[#8cc63f] text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-lime-400/30 transition-all hover:from-[#a5d32a] hover:to-[#7ab535] active:scale-95"
                 />
                 <div className="w-full">
-                   <BuyNowButton 
-                     product={product} 
-                     className="flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#15803d] text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-green-600/30 transition-all hover:from-[#138a3f] hover:to-[#116d34] active:scale-95"
-                   />
+                  <BuyNowButton
+                    product={product}
+                    className="flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#15803d] text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-green-600/30 transition-all hover:from-[#138a3f] hover:to-[#116d34] active:scale-95"
+                  />
                 </div>
               </div>
             </div>
@@ -172,15 +172,15 @@ export default function ProductDetailTemplate({
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
               {relatedProducts.map((p) => (
-                <Link 
-                  key={p.id} 
+                <Link
+                  key={p.id}
                   href={`/products/${p.id}`}
                   className="group flex flex-col rounded-3xl bg-white p-3 transition-all hover:shadow-xl border border-transparent hover:border-slate-100"
                 >
                   <div className="aspect-square w-full overflow-hidden rounded-2xl bg-slate-50 p-3 mb-4">
-                    <img 
-                      src={p.images?.[0] || p.image_url} 
-                      alt={p.name} 
+                    <img
+                      src={p.images?.[0] || p.image_url}
+                      alt={p.name}
                       className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
@@ -210,17 +210,17 @@ export default function ProductDetailTemplate({
       {/* STICKY BOTTOM BAR FOR MOBILE */}
       <div className="fixed bottom-0 left-0 right-0 z-[60] flex h-16 w-full items-center bg-white border-t border-slate-100 lg:hidden shadow-[0_-8px_30px_rgb(0,0,0,0.08)]">
         <div className="grid grid-cols-2 h-full w-full">
-          <AddToCartButton 
-            product={product} 
+          <AddToCartButton
+            product={product}
             className="flex items-center justify-center bg-gradient-to-r from-[#b8e636] to-[#8cc63f] text-white text-[10px] font-black uppercase tracking-widest hover:from-[#a5d32a] hover:to-[#7ab535] transition-colors border-r border-white/10"
           />
-          <BuyNowButton 
-            product={product} 
+          <BuyNowButton
+            product={product}
             className="flex items-center justify-center bg-gradient-to-r from-[#16a34a] to-[#15803d] text-white text-[10px] font-black uppercase tracking-widest hover:from-[#138a3f] hover:to-[#116d34] transition-colors"
           />
         </div>
       </div>
-      
+
       {/* Padding for bottom bar on mobile */}
       <div className="h-20 lg:hidden" />
     </div>
