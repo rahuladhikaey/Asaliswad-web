@@ -4,7 +4,7 @@ const http = require('http');
 // This script keeps your Render free tier web service awake by pinging it periodically.
 // It also starts a simple HTTP server to satisfy Render's requirement for a web service to bind to a port.
 
-const SITE_URL = process.env.SITE_URL || "https://asaliswad-web1.onrender.com";
+const SITE_URL = process.env.SITE_URL || "https://www.asaliswad.shop";
 const KEEPER_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${process.env.PORT || 4000}`;
 const PING_INTERVAL = 20000; // 20 seconds
 const PORT = process.env.PORT || 4000;
