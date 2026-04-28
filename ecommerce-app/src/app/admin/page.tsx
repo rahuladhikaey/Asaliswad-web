@@ -48,7 +48,7 @@ export default function AdminPage() {
     specifications: "",
     description: "",
     category_id: "",
-    imageFiles: null as FileList | null,
+    imageFiles: null as File[] | null,
   });
 
 
@@ -578,19 +578,20 @@ export default function AdminPage() {
                             const files = event.target.files;
                             if (!files) return;
 
-                            // Validate number of files
-                            if (files.length > MAX_PRODUCT_IMAGES) {
-                              setStatusMessage(`Maximum ${MAX_PRODUCT_IMAGES} images allowed. You selected ${files.length}.`);
+                            // Validate and Append files
+                            const selectedFiles = Array.from(files);
+                            const currentFiles = productForm.imageFiles || [];
+                            
+                            if (currentFiles.length + selectedFiles.length > MAX_PRODUCT_IMAGES) {
+                              setStatusMessage(`Maximum ${MAX_PRODUCT_IMAGES} images allowed. You already have ${currentFiles.length}.`);
                               event.target.value = "";
                               return;
                             }
 
                             // Validate file sizes
-                            let totalSize = 0;
                             let oversizedFiles: string[] = [];
-                            Array.from(files).forEach((file) => {
+                            selectedFiles.forEach((file) => {
                               const fileSizeMB = file.size / (1024 * 1024);
-                              totalSize += fileSizeMB;
                               if (fileSizeMB > MAX_IMAGE_SIZE_MB) {
                                 oversizedFiles.push(file.name);
                               }
@@ -602,8 +603,13 @@ export default function AdminPage() {
                               return;
                             }
 
-                            setProductForm((prev) => ({ ...prev, imageFiles: files }));
+                            setProductForm((prev) => ({ 
+                              ...prev, 
+                              imageFiles: [...(prev.imageFiles || []), ...selectedFiles] 
+                            }));
                             setStatusMessage("");
+                            // Reset input value so the same file can be selected again if removed
+                            event.target.value = "";
                           }}
                           className="hidden"
                         />
@@ -618,7 +624,7 @@ export default function AdminPage() {
                            </div>
                            <div>
                               <p className="text-[10px] font-black uppercase tracking-widest text-slate-900 leading-tight">
-                                 {productForm.imageFiles 
+                                 {productForm.imageFiles && productForm.imageFiles.length > 0 
                                     ? `${productForm.imageFiles.length} of ${MAX_PRODUCT_IMAGES} images selected` 
                                     : `Upload Product Images (Max ${MAX_PRODUCT_IMAGES})`}
                               </p>
@@ -629,16 +635,39 @@ export default function AdminPage() {
 
                      {productForm.imageFiles && productForm.imageFiles.length > 0 && (
                         <div className="space-y-2">
-                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Preview:</p>
+                           <div className="flex items-center justify-between">
+                              <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Selected Photos:</p>
+                              <button 
+                                type="button"
+                                onClick={() => setProductForm(prev => ({ ...prev, imageFiles: [] }))}
+                                className="text-[8px] font-black uppercase text-rose-500 hover:underline"
+                              >
+                                Clear All
+                              </button>
+                           </div>
                            <div className="grid grid-cols-2 gap-3">
-                              {Array.from(productForm.imageFiles).map((file, idx) => (
+                              {productForm.imageFiles.map((file, idx) => (
                                  <div key={idx} className="relative group/preview rounded-xl overflow-hidden border border-slate-200 bg-slate-50 aspect-square flex items-center justify-center">
                                     <img 
                                        src={URL.createObjectURL(file)} 
                                        alt={`Preview ${idx + 1}`}
                                        className="w-full h-full object-cover"
                                     />
-                                    <span className="absolute top-2 right-2 bg-emerald-600 text-white text-[8px] font-black px-2 py-1 rounded-lg">{idx + 1}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setProductForm(prev => ({
+                                          ...prev,
+                                          imageFiles: prev.imageFiles?.filter((_, i) => i !== idx) || []
+                                        }));
+                                      }}
+                                      className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-rose-600 text-white flex items-center justify-center shadow-lg opacity-0 group-hover/preview:opacity-100 transition-opacity"
+                                    >
+                                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                    </button>
+                                    <span className="absolute bottom-2 left-2 bg-black/50 text-white text-[8px] font-black px-2 py-1 rounded-lg backdrop-blur-sm">{idx + 1}</span>
                                  </div>
                               ))}
                            </div>
