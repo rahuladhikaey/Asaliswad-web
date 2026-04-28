@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Your production URL
-const SITE_URL = process.env.SITE_URL || "https://your-site.onrender.com";
+const SITE_URL = process.env.SITE_URL || "https://asaliswad-web1.onrender.com";
 const PING_INTERVAL = 25000; // 25 seconds (Render sleeps after 15 min)
 
 console.log(`🔄 Keeper started - pinging ${SITE_URL} every 25 seconds`);
