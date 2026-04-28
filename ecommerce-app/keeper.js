@@ -1,26 +1,48 @@
-import axios from "axios";
+const axios = require('axios');
+const http = require('http');
 
-// Your production URL
+// This script keeps your Render free tier web service awake by pinging it periodically.
+// It also starts a simple HTTP server to satisfy Render's requirement for a web service to bind to a port.
+
 const SITE_URL = process.env.SITE_URL || "https://asaliswad-web1.onrender.com";
-const PING_INTERVAL = 25000; // 25 seconds (Render sleeps after 15 min)
+const KEEPER_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${process.env.PORT || 4000}`;
+const PING_INTERVAL = 20000; // 20 seconds
+const PORT = process.env.PORT || 4000;
 
-console.log(`🔄 Keeper started - pinging ${SITE_URL} every 25 seconds`);
-
-setInterval(async () => {
-  try {
-    const response = await axios.get(`${SITE_URL}/api/health`, {
-      timeout: 10000,
-    });
-    console.log(`✅ Ping successful at ${new Date().toISOString()}`);
-  } catch (error) {
-    console.error(
-      `❌ Ping failed: ${error instanceof Error ? error.message : "Unknown error"}`
-    );
-  }
-}, PING_INTERVAL);
-
-// Keep the process alive
-process.on("SIGTERM", () => {
-  console.log("🛑 Keeper stopping gracefully");
-  process.exit(0);
+// 1. Create a simple server to keep the Keeper service itself awake
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Keeper is awake and active\n');
+}).listen(PORT, () => {
+    console.log(`🚀 Keeper server is running on port ${PORT}`);
 });
+
+// 2. Function to ping the website(s)
+function reloadWebsite() {
+    // Ping the main site
+    axios.get(SITE_URL)
+        .then(() => {
+            console.log(`✅ [${new Date().toLocaleTimeString()}] Ping successful: ${SITE_URL}`);
+        })
+        .catch((error) => {
+            console.error(`❌ [${new Date().toLocaleTimeString()}] Ping failed for ${SITE_URL}: ${error.message}`);
+        });
+
+    // Also ping itself to keep the keeper awake
+    if (process.env.RENDER_EXTERNAL_URL) {
+        axios.get(process.env.RENDER_EXTERNAL_URL)
+            .then(() => {
+                console.log(`✅ [${new Date().toLocaleTimeString()}] Self-ping successful`);
+            })
+            .catch((err) => {
+                console.error(`❌ Self-ping failed: ${err.message}`);
+            });
+    }
+}
+
+// 3. Start pinging
+setInterval(reloadWebsite, PING_INTERVAL);
+
+console.log(`🔄 Keeper started - pinging ${SITE_URL} every ${PING_INTERVAL / 1000} seconds`);
+// Initial ping
+reloadWebsite();
