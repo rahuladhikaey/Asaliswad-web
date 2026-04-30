@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Footer() {
   return (
@@ -41,6 +42,7 @@ export function Footer() {
               <li><Link href="/about" className="transition hover:text-white">About Us</Link></li>
               <li><Link href="/contact" className="transition hover:text-white">Contact & Support</Link></li>
               <li><Link href="/privacy-policy" className="transition hover:text-white">Privacy Policy</Link></li>
+              <li><ThemeToggle /></li>
             </ul>
           </div>
 
@@ -78,4 +80,3 @@ export function Footer() {
     </footer>
   );
 }
-
