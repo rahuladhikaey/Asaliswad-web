@@ -19,8 +19,8 @@ export default function ProductImageCarousel({
   const currentTranslateRef = useRef(0);
   const prevTranslateRef = useRef(0);
 
-  const itemsPerSlide = 2;
-  const totalSlides = Math.max(1, Math.ceil(images.length / itemsPerSlide));
+  const itemsPerSlide = 1;
+  const totalSlides = images.length;
 
   // Sync state to ref for animation loop
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function ProductImageCarousel({
     if (isDragging || totalSlides <= 1) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalSlides);
-    }, 8000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [totalSlides, isDragging]);
 
@@ -145,27 +145,20 @@ export default function ProductImageCarousel({
           className="flex transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
           style={{ transform: `translateX(${currentIndex * -100}%)` }}
         >
-          {Array.from({ length: totalSlides }).map((_, slideIdx) => (
-            <div key={slideIdx} className="flex-none w-full grid grid-cols-2 gap-4 p-4">
-              {images.slice(slideIdx * itemsPerSlide, slideIdx * itemsPerSlide + itemsPerSlide).map((img, idx) => (
-                <div
-                  key={`${slideIdx}-${idx}`}
-                  className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white aspect-[4/5] group"
-                >
-                  <img
-                    src={img}
-                    alt={`${productName} - View ${slideIdx * itemsPerSlide + idx + 1}`}
-                    className={`h-full w-full object-cover transition-transform duration-700 pointer-events-none ${(slideIdx * itemsPerSlide + idx) % 2 === 0 ? "pan-lr" : "pan-rl"
-                      }`}
-                  />
-
-                  <div className="absolute bottom-4 left-4 flex h-7 items-center rounded-full bg-white/60 border border-white/80 px-3 backdrop-blur-md">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-slate-800">
-                      View 0{slideIdx * itemsPerSlide + idx + 1}
-                    </span>
-                  </div>
+          {images.map((img, idx) => (
+            <div key={idx} className="flex-none w-full p-4 sm:p-6">
+              <div className="relative overflow-hidden rounded-[2rem] border border-slate-100 bg-white aspect-square sm:aspect-video md:aspect-[21/9] group shadow-inner">
+                <img
+                  src={img}
+                  alt={`${productName} - View ${idx + 1}`}
+                  className={`h-full w-full object-contain transition-transform duration-700 pointer-events-none ${idx % 2 === 0 ? "pan-lr" : "pan-rl"}`}
+                />
+                <div className="absolute bottom-6 left-6 flex h-8 items-center rounded-full bg-white/40 border border-white/60 px-4 backdrop-blur-md">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">
+                    Image 0{idx + 1}
+                  </span>
                 </div>
-              ))}
+              </div>
             </div>
           ))}
         </div>
