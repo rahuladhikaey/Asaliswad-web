@@ -68,25 +68,36 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Horizontally Scrollable Category Pills */}
-          <div className="no-scrollbar mt-8 flex w-full gap-2 overflow-x-auto pb-2">
-            <button
-              type="button"
-              onClick={() => setSelectedCategory(null)}
-              className={`whitespace-nowrap rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider transition-all shadow-sm ${selectedCategory === null ? "bg-emerald-600 text-white shadow-emerald-600/20" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}
-            >
-              All items
-            </button>
-            {categories.map((category) => (
+          {/* Segmented Category Selection Bar */}
+          <div className="mt-8">
+            <p className="mb-3 ml-1 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Select Department</p>
+            <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto rounded-[1.5rem] bg-slate-100/80 p-1.5 border border-slate-200/50 backdrop-blur-sm">
               <button
                 type="button"
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`whitespace-nowrap rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider transition-all shadow-sm ${selectedCategory === category.id ? "bg-emerald-600 text-white shadow-emerald-600/20" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}
+                onClick={() => setSelectedCategory(null)}
+                className={`flex-1 whitespace-nowrap rounded-xl px-6 py-2.5 text-[11px] font-black uppercase tracking-widest transition-all duration-300 ${
+                  selectedCategory === null 
+                    ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/20" 
+                    : "text-slate-500 hover:text-slate-900 hover:bg-white/50"
+                }`}
               >
-                {category.name}
+                All Items
               </button>
-            ))}
+              {categories.map((category) => (
+                <button
+                  type="button"
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`flex-1 whitespace-nowrap rounded-xl px-6 py-2.5 text-[11px] font-black uppercase tracking-widest transition-all duration-300 ${
+                    selectedCategory === category.id 
+                      ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/20" 
+                      : "text-slate-500 hover:text-slate-900 hover:bg-white/50"
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
