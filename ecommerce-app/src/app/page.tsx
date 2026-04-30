@@ -52,11 +52,19 @@ export default async function HomePage() {
           </div>
           <div className="no-scrollbar flex w-full gap-4 overflow-x-auto pb-4 snap-x">
             {categories.map((category) => (
-              <Link key={category.id} href={`/products?category=${category.id}`} className="flex flex-col items-center gap-3 group min-w-[84px] snap-start">
-                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-[1.75rem] bg-white transition-all group-hover:bg-emerald-50 group-hover:scale-105 premium-shadow border border-slate-100/50">
-                  <span className="text-lg font-black text-emerald-600/30 group-hover:text-emerald-600 transition-colors">{category.name.substring(0, 1).toUpperCase()}</span>
+              <Link 
+                key={category.id} 
+                href={`/products?category=${category.id}`} 
+                className="flex flex-col items-center gap-3 group min-w-[70px] sm:min-w-[90px] md:min-w-[110px] snap-start"
+              >
+                <div className="flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center overflow-hidden rounded-[1.5rem] sm:rounded-[1.75rem] md:rounded-[2rem] bg-white transition-all group-hover:bg-emerald-50 group-hover:scale-105 premium-shadow border border-slate-100/50">
+                  <span className="text-base sm:text-lg md:text-2xl font-black text-emerald-600/30 group-hover:text-emerald-600 transition-colors">
+                    {category.name.substring(0, 1).toUpperCase()}
+                  </span>
                 </div>
-                <span className="w-full text-center text-[11px] font-bold text-slate-800 uppercase tracking-tight">{category.name}</span>
+                <span className="w-full text-center text-[10px] sm:text-[11px] md:text-xs font-bold text-slate-800 uppercase tracking-tight">
+                  {category.name}
+                </span>
               </Link>
             ))}
           </div>
