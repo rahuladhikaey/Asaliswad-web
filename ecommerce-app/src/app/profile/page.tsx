@@ -65,12 +65,12 @@ export default function ProfilePage() {
               <div className="flex h-36 w-36 shrink-0 items-center justify-center rounded-[2.5rem] border-8 border-white bg-emerald-50 text-5xl font-black text-emerald-600 shadow-2xl shadow-emerald-950/10">
                 {user.email?.[0].toUpperCase()}
               </div>
-              <div className="mb-4">
+              <div className="mb-4 min-w-0 flex-1">
                 <span className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-700 mb-2">Verified Member 🌟</span>
-                <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight break-words line-clamp-2">
+                <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight break-words">
                   {user.user_metadata?.full_name || user.email?.split("@")[0]}
                 </h1>
-                <p className="mt-1 text-base font-bold text-slate-400 truncate max-w-[280px] md:max-w-none">{user.email}</p>
+                <p className="mt-1 text-base font-bold text-slate-400 truncate">{user.email}</p>
               </div>
             </div>
 

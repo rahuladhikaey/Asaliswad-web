@@ -365,33 +365,33 @@ export default function AdminPage() {
     <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
       <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-slate-100 premium-shadow">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="flex h-20 items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
                {/* Back Button */}
                <button
                  onClick={() => router.back()}
-                 className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all active:scale-90"
+                 className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all active:scale-90"
                  aria-label="Go Back"
                >
                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                  </svg>
                </button>
-
-               <div className="h-10 w-10 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/20">
+ 
+               <div className="h-9 w-9 sm:h-10 sm:w-10 shrink-0 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/20">
                   <span className="text-white font-black text-xs">AS</span>
                </div>
-                <div className="flex flex-col min-w-0 max-w-[150px] sm:max-w-none">
-                  <h1 className="text-base md:text-lg font-black tracking-tight text-slate-900 uppercase truncate">Admin 控制台</h1>
-                  <p className="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest truncate">{adminUser || 'Internal'}</p>
-                </div>
+               <div className="min-w-0">
+                  <h1 className="text-sm sm:text-lg font-black tracking-tight text-slate-900 uppercase truncate">Admin Dashboard</h1>
+                  <p className="text-[9px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-widest truncate">{adminUser || 'Internal'}</p>
+               </div>
             </div>
             
             <button
               onClick={handleLogout}
-              className="group flex items-center gap-2 rounded-xl bg-rose-50 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
+              className="group flex items-center gap-2 rounded-xl bg-rose-50 px-3 sm:px-4 py-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-rose-600 transition-all hover:bg-rose-600 hover:text-white shrink-0"
             >
-              Sign Out
+              <span className="hidden xs:inline">Sign Out</span>
               <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 16l4-4m0 0l-4-4m4 4H7" />
               </svg>
@@ -441,9 +441,9 @@ export default function AdminPage() {
           <div className="space-y-10">
             <div className="bg-white rounded-[3rem] p-8 md:p-12 premium-shadow border border-slate-100 flex flex-col md:flex-row items-center gap-8 justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-50"></div>
-                <div className="relative z-10 text-center md:text-left w-full md:w-auto">
+                <div className="relative z-10 text-center md:text-left">
                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Operations Overview</span>
-                   <h2 className="mt-2 text-2xl md:text-3xl font-black tracking-tight text-slate-900">Welcome back, Chief.</h2>
+                   <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900">Welcome back, Chief.</h2>
                    <p className="mt-2 text-sm font-bold text-slate-400">Everything looks great today! 🌿</p>
                 </div>
                 <div className="flex gap-4 relative z-10">
@@ -695,36 +695,38 @@ export default function AdminPage() {
                
                <div className="grid gap-6">
                 {products.map((product) => (
-                  <div key={product.id} className="group relative flex flex-col md:flex-row items-center gap-6 p-6 rounded-[2.5rem] border border-slate-100 bg-white transition-all hover:bg-slate-50/50 hover:shadow-xl hover:shadow-slate-900/5">
-                    {/* Product Images Display */}
-                    <div className="flex gap-3 flex-shrink-0">
-                       {product.images && product.images.length > 0 ? (
-                          product.images.map((imgUrl, idx) => (
-                             <div key={idx} className="h-24 w-24 rounded-2xl bg-slate-100 overflow-hidden border border-slate-100 flex-shrink-0 relative">
-                                <img src={imgUrl} alt={`${product.name} - Image ${idx + 1}`} className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-700" title={`${product.name} (${idx + 1})`}/>
-                                <span className="absolute top-1 right-1 bg-emerald-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded">{idx + 1}</span>
-                             </div>
-                          ))
-                       ) : (
-                          <div className="h-24 w-24 rounded-2xl bg-slate-100 overflow-hidden border border-slate-100 flex-shrink-0 flex items-center justify-center text-slate-300">
-                             <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                             </svg>
-                          </div>
-                       )}
-                    </div>
-                    
-                    <div className="flex-1 text-center md:text-left min-w-0 w-full">
-                       <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
-                          <h3 className="text-lg font-black tracking-tight text-slate-900 break-words">
-                             {product.name}
-                          </h3>
-                          <span className="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest w-fit mx-auto md:mx-0 shrink-0">
-                             {categories.find(c => c.id === product.category_id)?.name || 'Uncategorized'}
-                          </span>
-                       </div>
-                       <p className="text-2xl font-black tracking-tighter text-emerald-600">₹{product.price}</p>
-                    </div>
+                    <div key={product.id} className="group relative flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 p-4 sm:p-6 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-100 bg-white transition-all hover:bg-slate-50/50 hover:shadow-xl hover:shadow-slate-900/5">
+                      {/* Product Images Display */}
+                      <div className="flex gap-2 sm:gap-3 flex-wrap justify-center sm:justify-start flex-shrink-0">
+                         {product.images && product.images.length > 0 ? (
+                            product.images.map((imgUrl, idx) => (
+                               <div key={idx} className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-slate-100 overflow-hidden border border-slate-100 flex-shrink-0 relative">
+                                  <img src={imgUrl} alt={`${product.name} - Image ${idx + 1}`} className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-700" title={`${product.name} (${idx + 1})`}/>
+                                  <span className="absolute top-1 right-1 bg-emerald-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded shadow-sm">{idx + 1}</span>
+                               </div>
+                            ))
+                         ) : (
+                            <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-slate-100 overflow-hidden border border-slate-100 flex-shrink-0 flex items-center justify-center text-slate-300">
+                               <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                               </svg>
+                            </div>
+                         )}
+                      </div>
+                      
+                      <div className="flex-1 text-center sm:text-left min-w-0">
+                         <div className="flex flex-col gap-1 mb-2">
+                           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                              <h3 className="text-base sm:text-lg font-black tracking-tight text-slate-900 break-words">
+                                 {product.name}
+                              </h3>
+                              <span className="inline-flex px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[8px] sm:text-[9px] font-black uppercase tracking-widest w-fit">
+                                 {categories.find(c => c.id === product.category_id)?.name || 'Uncategorized'}
+                              </span>
+                           </div>
+                           <p className="text-xl sm:text-2xl font-black tracking-tighter text-emerald-600">₹{product.price}</p>
+                         </div>
+                      </div>
                     
                     <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-4 sm:mt-0">
                        <button
@@ -878,53 +880,52 @@ export default function AdminPage() {
                <div className="grid gap-8">
                 {orders.map((order) => (
                   <div key={order.id} className="group relative flex flex-col p-8 rounded-[3rem] border border-slate-100 bg-white transition-all hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-slate-900/5">
-                    <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8 pb-8 border-b border-slate-100">
-                      <div className="space-y-2 min-w-0">
+                    <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8 pb-8 border-b border-slate-100">
+                      <div className="space-y-2 min-w-0 flex-1">
                         <div className="flex items-center gap-3">
                            <div className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-black shrink-0">
                               {order.customer_name.charAt(0).toUpperCase()}
                            </div>
-                           <h3 className="text-xl font-black tracking-tight text-slate-900 truncate">{order.customer_name}</h3>
+                           <h3 className="text-xl font-black tracking-tight text-slate-900 break-words">{order.customer_name}</h3>
                         </div>
                         <div className="flex flex-wrap gap-4 text-xs font-bold text-slate-400">
-                           <span className="flex items-center gap-1.5 shrink-0">
+                           <span className="flex items-center gap-1.5 whitespace-nowrap">
                               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                               {order.phone}
                            </span>
-                           <span className="flex items-center gap-1.5 shrink-0">
+                           <span className="flex items-center gap-1.5 whitespace-nowrap">
                               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                               {new Date(order.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}
                            </span>
                         </div>
                       </div>
-
-                      <div className="flex flex-col items-end gap-3 w-full md:w-auto">
-                        <div className="flex flex-wrap justify-end gap-2 w-full">
-                          <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${
-                            order.payment_method === 'COD' 
-                              ? 'bg-amber-100 text-amber-700 border border-amber-200' 
-                              : 'bg-blue-100 text-blue-700 border border-blue-200'
-                          }`}>
-                            {order.payment_method || 'N/A'}
-                          </span>
-                          <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${
-                            order.payment_status === 'COMPLETE' 
-                              ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' 
-                              : 'bg-rose-50 text-rose-600 border border-rose-100'
-                          }`}>
-                            {order.payment_status || 'PENDING'}
-                          </span>
-                          <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${
-                            order.order_status === 'DELIVERED' 
-                              ? 'bg-slate-900 text-white' 
-                              : order.order_status === 'SHIPPED'
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-amber-50 text-amber-600 border border-amber-100'
-                          }`}>
-                            {order.order_status || 'PENDING'}
-                          </span>
-                        </div>
-                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest text-right w-full">ID: #{order.id} | RP: {order.razorpay_order_id?.slice(-6) || 'N/A'}</p>
+                      <div className="flex flex-col items-start lg:items-end gap-3 w-full lg:w-auto">
+                         <div className="flex flex-wrap justify-start lg:justify-end gap-2">
+                            <span className={`px-4 py-2 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${
+                              order.payment_method === 'COD' 
+                                ? 'bg-amber-100 text-amber-700 border border-amber-200' 
+                                : 'bg-blue-100 text-blue-700 border border-blue-200'
+                            }`}>
+                              {order.payment_method || 'N/A'}
+                            </span>
+                            <span className={`px-4 py-2 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${
+                              order.payment_status === 'COMPLETE' 
+                                ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' 
+                                : 'bg-rose-50 text-rose-600 border border-rose-100'
+                            }`}>
+                               {order.payment_status || 'PENDING'}
+                            </span>
+                            <span className={`px-4 py-2 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${
+                              order.order_status === 'DELIVERED' 
+                                ? 'bg-slate-900 text-white' 
+                                : order.order_status === 'SHIPPED'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-amber-50 text-amber-600 border border-amber-100'
+                            }`}>
+                               {order.order_status || 'PENDING'}
+                            </span>
+                         </div>
+                         <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest break-all">ID: #{order.id} {order.razorpay_order_id ? `| RP: ${order.razorpay_order_id.slice(-8)}` : ''}</p>
                       </div>
                     </div>
 
@@ -1025,3 +1026,4 @@ export default function AdminPage() {
     </main>
   );
 }
+
