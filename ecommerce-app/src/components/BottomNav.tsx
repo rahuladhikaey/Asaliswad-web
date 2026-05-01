@@ -26,13 +26,11 @@ export function BottomNav() {
           <Link
             key={item.name}
             href={item.href}
-            className={`relative flex flex-col items-center justify-center gap-1 transition-all active:scale-90 ${
-              isActive ? "text-emerald-600" : "text-slate-400"
-            }`}
+            className={`relative flex flex-col items-center justify-center gap-1 transition-all active:scale-90 ${isActive ? "text-emerald-600" : "text-slate-400"
+              }`}
           >
-            <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
-              isActive ? "bg-emerald-50" : "bg-transparent"
-            }`}>
+            <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${isActive ? "bg-emerald-50" : "bg-transparent"
+              }`}>
               <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
             </div>
             {item.badge ? (
