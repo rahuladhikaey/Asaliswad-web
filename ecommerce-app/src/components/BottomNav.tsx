@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Home, Search, ShoppingCart, User, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -8,6 +9,16 @@ import { useCart } from "@/context/CartContext";
 export function BottomNav() {
   const pathname = usePathname();
   const { totalItems } = useCart();
+  const [isApp, setIsApp] = useState(false);
+
+  useEffect(() => {
+    // Detect if we are running inside the official Android App
+    const isAndroidApp = navigator.userAgent.includes("AsaliSwadAndroid");
+    setIsApp(isAndroidApp);
+  }, []);
+
+  // Hide BottomNav on Admin pages OR if not accessed via the App
+  if (pathname?.startsWith("/admin") || !isApp) return null;
 
   const navItems = [
     { name: "Home", href: "/", icon: Home },
