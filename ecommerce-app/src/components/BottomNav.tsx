@@ -10,15 +10,18 @@ export function BottomNav() {
   const pathname = usePathname();
   const { totalItems } = useCart();
   const [isApp, setIsApp] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Detect if we are running inside the official Android App
-    const isAndroidApp = navigator.userAgent.includes("AsaliSwadAndroid");
+    setMounted(true);
+    // Strict detection for official Android App
+    const userAgent = window.navigator.userAgent;
+    const isAndroidApp = userAgent.includes("AsaliSwadAndroid");
     setIsApp(isAndroidApp);
   }, []);
 
-  // Hide BottomNav on Admin pages OR if not accessed via the App
-  if (pathname?.startsWith("/admin") || !isApp) return null;
+  // NEVER show on Browser, Admin, or before mounting
+  if (!mounted || !isApp || pathname?.startsWith("/admin")) return null;
 
   const navItems = [
     { name: "Home", href: "/", icon: Home },
