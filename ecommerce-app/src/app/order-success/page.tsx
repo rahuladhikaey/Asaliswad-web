@@ -84,7 +84,7 @@ function OrderSuccessContent() {
             </p>
 
             <div className="pt-8">
-              <Link href="/" className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black uppercase tracking-widest text-white transition hover:bg-slate-800 active:scale-95">
+              <Link href="/" className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black uppercase tracking-widest text-yellow-400 transition hover:bg-slate-800 active:scale-95 border border-slate-800">
                 Continue Shopping
               </Link>
             </div>
