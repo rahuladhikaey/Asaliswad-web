@@ -901,14 +901,14 @@ export default function AdminPage() {
                       <div className="flex flex-col items-start lg:items-end gap-2 sm:gap-3 w-full lg:w-auto">
                         <div className="flex flex-wrap justify-start lg:justify-end gap-2">
                           <span className={`px-3 py-1 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${order.payment_method === 'COD'
-                              ? 'bg-amber-100 text-amber-700 border border-amber-200'
-                              : 'bg-blue-100 text-blue-700 border border-blue-200'
+                            ? 'bg-amber-100 text-amber-700 border border-amber-200'
+                            : 'bg-blue-100 text-blue-700 border border-blue-200'
                             }`}>
                             {order.payment_method || 'N/A'}
                           </span>
                           <span className={`px-3 py-1 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${order.payment_status === 'COMPLETE'
-                              ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-                              : 'bg-rose-50 text-rose-600 border border-rose-100'
+                            ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                            : 'bg-rose-50 text-rose-600 border border-rose-100'
                             }`}>
                             {order.payment_status || 'PENDING'}
                           </span>
