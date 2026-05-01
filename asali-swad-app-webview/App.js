@@ -7,7 +7,6 @@ import {
   SafeAreaView, 
   Platform, 
   StatusBar,
-  Linking,
   Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -44,7 +43,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#059669" barStyle="light-content" />
+      <StatusBar backgroundColor="#059669" barStyle="light-content" translucent={false} />
       
       <WebView
         ref={webViewRef}
@@ -73,12 +72,16 @@ export default function App() {
               resizeMode="contain"
             />
             <ActivityIndicator size="large" color="#059669" style={{ marginTop: 20 }} />
-          </div>
+          </View>
         )}
 
         onHttpError={(syntheticEvent) => {
           const { nativeEvent } = syntheticEvent;
           console.warn('WebView error: ', nativeEvent);
+        }}
+        onError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn('WebView load error: ', nativeEvent);
         }}
       />
     </SafeAreaView>
@@ -89,7 +92,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   webview: {
     flex: 1,
@@ -99,9 +101,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
+    zIndex: 10,
   },
   loaderLogo: {
-    width: 120,
-    height: 120,
+    width: 150,
+    height: 150,
   },
 });
