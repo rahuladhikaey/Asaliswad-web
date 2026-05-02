@@ -818,20 +818,20 @@ export default function AdminPage() {
 
               <div className="grid gap-4">
                 {categories.map((category) => (
-                  <div key={category.id} className="group relative flex items-center justify-between p-6 rounded-[2rem] border border-slate-100 bg-white transition-all hover:bg-slate-50/50 hover:shadow-xl hover:shadow-slate-900/5">
-                    <div className="flex items-center gap-6">
-                      <div className="h-12 w-12 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                  <div key={category.id} className="group relative flex flex-col sm:flex-row items-center sm:items-center justify-between p-6 rounded-[2rem] border border-slate-100 bg-white transition-all hover:bg-slate-50/50 hover:shadow-xl hover:shadow-slate-900/5">
+                    <div className="flex items-center gap-6 w-full sm:w-auto">
+                      <div className="h-12 w-12 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100 shrink-0">
                         <svg className="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                       </div>
-                      <div>
-                        <p className="text-lg font-black tracking-tight text-slate-900">{category.name}</p>
+                      <div className="min-w-0">
+                        <p className="text-lg font-black tracking-tight text-slate-900 truncate">{category.name}</p>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{products.filter(p => p.category_id === category.id).length} Products Assigned</p>
                       </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 w-full sm:w-auto mt-4 sm:mt-0">
                       <button
                         type="button"
                         onClick={() => {
@@ -839,21 +839,24 @@ export default function AdminPage() {
                           setCategoryName(category.name);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
-                        className="h-12 px-6 rounded-xl bg-slate-50 border border-slate-100 text-[9px] font-black uppercase tracking-widest text-slate-600 transition-all hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
+                        className="flex-1 sm:flex-none h-12 px-8 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
                       >
                         Rename
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDeleteCategory(category.id)}
-                        className="h-12 w-12 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center transition-all hover:bg-rose-600 group/del"
+                        className="h-12 w-full sm:w-14 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center transition-all hover:bg-rose-600 group/del shrink-0"
                       >
                         <svg className="h-4 w-4 text-rose-600 group-hover/del:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
+                        <span className="sm:hidden ml-2 text-[10px] font-black uppercase tracking-widest text-rose-600 group-hover/del:text-white">Delete</span>
                       </button>
+
                     </div>
                   </div>
+
                 ))}
                 {categories.length === 0 && (
                   <div className="text-center py-20 bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
