@@ -31,7 +31,7 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden">
-      <Header title="Premium Taste" subtitle="Direct to your Door 📍" />
+      <Header title="Asali Swad" subtitle="Direct to your Door 📍" />
 
 
       {/* Hero Section Container */}

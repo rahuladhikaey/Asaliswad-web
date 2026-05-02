@@ -13,7 +13,7 @@ type HeaderProps = {
 };
 
 export function Header({ 
-  title = "Premium Taste", 
+  title = "Asali Swad", 
   subtitle = "Direct to your Door 📍" 
 }: HeaderProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
