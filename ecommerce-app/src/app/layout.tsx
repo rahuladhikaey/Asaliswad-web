@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Footer } from "@/components/Footer";
 import { BottomNav } from "@/components/BottomNav";
+import { AppLayoutWrapper } from "@/components/AppLayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,7 +14,7 @@ const geistSans = Geist({
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
-  display: 'swap',
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -22,8 +23,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AS Store | WhatsApp COD eCommerce",
-  description: "Modern product storefront with Supabase backend and WhatsApp Cash on Delivery checkout.",
+  title: "Asali Swad | Fresh & Pure",
+  description:
+    "Shop premium Indian grocery and food products at Asali Swad. Fast delivery, cash on delivery.",
 };
 
 export const viewport = "width=device-width, initial-scale=1";
@@ -40,9 +42,14 @@ export default function RootLayout({
     >
       <body className="min-h-full font-sans bg-white text-slate-900 overflow-x-hidden">
         <Providers>
-          {children}
-          <Footer />
-          <BottomNav />
+          {/*
+           * AppLayoutWrapper handles the platform switch:
+           *  - App (Android WebView): no Header, no Footer, bottom padding for BottomNav
+           *  - Web (Browser):         Header, Footer, no BottomNav
+           */}
+          <AppLayoutWrapper footer={<Footer />} bottomNav={<BottomNav />}>
+            {children}
+          </AppLayoutWrapper>
         </Providers>
       </body>
     </html>
